@@ -1,0 +1,16 @@
+vendor/
+LICENSE
+Dockerfile
+.dockerignore
+.gitignore
+
+*.example
+*.md
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.out
+
+sparkling

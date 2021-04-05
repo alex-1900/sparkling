@@ -1,0 +1,34 @@
+# this compose file is for development only
+version: "3.8"
+services:
+    backend:
+        build:
+            context: ./backend
+            target: enviroment
+        restart: always
+        volumes:
+            - ./backend:/src/backend
+        working_dir: /src/backend
+        entrypoint: ["go", "run", "main.go", "server", "--port", "8080"]
+        depends_on:
+            - mysql
+        ports:
+            - 80:8080
+    mysql:
+        image: mysql:8
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - ./deploy/dev/mysql/conf.d:/etc/mysql/conf.d
+        restart: always
+        cap_add:
+            - SYS_NICE  # CAP_SYS_NICE
+        environment:
+            MYSQL_ROOT_PASSWORD: sparkling
+            MYSQL_DATABASE: sparkling
+        expose:
+            - 3306
+        ports:
+            - 33061:3306
+volumes:
+    mysql_data: {}
